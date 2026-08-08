@@ -22,25 +22,17 @@ jobs:
           - top
 
     steps:
-      # ۱. دریافت سورس‌کد از ریپازیتوری
+      # ۱. دریافت سورس‌کد
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # ۲. نصب SIESTA و ابزارهای مرتبط (fcbuild, vibra و ...) از conda-forge
-      - name: Install SIESTA & Utilities
+      # ۲. نصب SIESTA و Gnuplot از conda-forge
+      - name: Install SIESTA & Gnuplot
         shell: bash
         run: |
-          conda install -y -c conda-forge siesta
+          conda install -y -c conda-forge siesta gnuplot
 
-      # ۳. بررسی نصب بودن ابزارهای مورد نیاز
-      - name: Verify Installation
-        shell: bash
-        run: |
-          which siesta
-          which fcbuild || echo "fcbuild missing from path"
-          which vibra || echo "vibra missing from path"
-
-      # ۴. اجرای اسکریپت بش در پوشه phonon-Gamma
+      # ۳. اجرای اسکریپت بش اصلی
       - name: Run Phonon Calculation
         shell: bash
         run: |
@@ -50,16 +42,44 @@ jobs:
           echo "Running Phonon calculation for: $CASE"
           echo "========================================"
 
-          # رفتن به پوشه phonon-Gamma مربوط به کیس (top یا bot)
           cd "$CASE/phonon-Gamma" || exit 1
-
-          # دادن مجوز اجرا به اسکریپت
           chmod +x bandsmaker.sh
-
-          # اجرای اسکریپت بش
           ./bandsmaker.sh
 
-      # ۵. نمایش ۵۰ سطر آخر فایل‌های لاگ تولید شده برای خطایابی سریع
+      # ۴. رسم نمودار باند فونونی با gnuplot
+      - name: Plot Phonon Bands with Gnuplot
+        if: always()
+        shell: bash
+        run: |
+          CASE="${{ matrix.case }}"
+          TARGET_DIR="$CASE/phonon-Gamma/InSe"
+
+          if [ -d "$TARGET_DIR" ]; then
+            cd "$TARGET_DIR"
+
+            # اگر gnubands موجود بود فایل bands را به فایل دیتای قابل رسم تبدیل می‌کند
+            if command -v gnubands &> /dev/null && [ -f "mx.bands" ]; then
+              gnubands < mx.bands > phonon_bands.dat
+            elif [ -f "mx.bands" ]; then
+              cp mx.bands phonon_bands.dat
+            fi
+
+            # رسم نمودار در صورت وجود فایل دیتا
+            if [ -f "phonon_bands.dat" ]; then
+              gnuplot -e "
+                set terminal pngcairo size 800,600 enhanced font 'Arial,12';
+                set output 'phonon_dispersion.png';
+                set title 'Phonon Dispersion ($CASE)';
+                set xlabel 'Wave Vector';
+                set ylabel 'Frequency (cm^{-1})';
+                set grid;
+                plot 'phonon_bands.dat' using 1:2 with lines lw 1.5 title 'Phonons';
+              "
+              echo "Phonon plot successfully generated at $TARGET_DIR/phonon_dispersion.png"
+            fi
+          fi
+
+      # ۵. نمایش لاگ‌ها در صورت بروز خطا
       - name: Show last log lines
         if: always()
         shell: bash
@@ -67,7 +87,7 @@ jobs:
           echo "=========== IFC STDOUT/STDERR ==========="
           tail -n 50 ${{ matrix.case }}/phonon-Gamma/InSe/mx.ifc.out || true
 
-      # ۶. آپلود تمامی خروجی‌ها (شامل فایل‌های قبلی + تمام پوشه phonon-Gamma و زیرپوشه‌های ساخته‌شده)
+      # ۶. دانلود تمام خروجی‌ها (از جمله عکس gnuplot) به‌صورت Artifact
       - name: Upload all outputs as Artifact
         if: always()
         uses: actions/upload-artifact@v4
