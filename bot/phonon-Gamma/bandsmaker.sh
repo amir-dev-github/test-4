@@ -145,7 +145,12 @@ echo    2    $an2    $jj >> mx.ifc.fdf
 cat >> mx.ifc.fdf << EOF
 %endblock ChemicalSpeciesLabel
 
-PAO.BasisSize         DZP
+%block PS.lmax
+  In  1
+  Se  2
+%endblock PS.lmax
+
+PAO.BasisSize          DZP
 #PAO.SplitNorm         0.154
 
 PAO.EnergyShift 0.15 eV
@@ -160,7 +165,7 @@ DM.Tolerance          1.d-4
 DM.NumberPulay         4
 DM.UseSaveDM		true
 
-ElectronicTemperature  300 K
+ElectronicTemperature   300 K
 
 UseSaveData		true
 
@@ -199,5 +204,3 @@ rm $jj.psf
 cd ..
 done
 done
-
-
