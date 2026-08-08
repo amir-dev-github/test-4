@@ -1,0 +1,76 @@
+name: Run SIESTA Phonon Calculations
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+jobs:
+  phonon-calculation:
+    runs-on: ubuntu-latest
+
+    container:
+      image: continuumio/miniconda3:latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        case:
+          - bot
+          - top
+
+    steps:
+      # ۱. دریافت سورس‌کد از ریپازیتوری
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ۲. نصب SIESTA و ابزارهای مرتبط (fcbuild, vibra و ...) از conda-forge
+      - name: Install SIESTA & Utilities
+        shell: bash
+        run: |
+          conda install -y -c conda-forge siesta
+
+      # ۳. بررسی نصب بودن ابزارهای مورد نیاز
+      - name: Verify Installation
+        shell: bash
+        run: |
+          which siesta
+          which fcbuild || echo "fcbuild missing from path"
+          which vibra || echo "vibra missing from path"
+
+      # ۴. اجرای اسکریپت بش در پوشه phonon-Gamma
+      - name: Run Phonon Calculation
+        shell: bash
+        run: |
+          CASE="${{ matrix.case }}"
+          
+          echo "========================================"
+          echo "Running Phonon calculation for: $CASE"
+          echo "========================================"
+
+          # رفتن به پوشه phonon-Gamma مربوط به کیس (top یا bot)
+          cd "$CASE/phonon-Gamma" || exit 1
+
+          # دادن مجوز اجرا به اسکریپت
+          chmod +x bandsmarker.sh
+
+          # اجرای اسکریپت بش
+          ./bandsmarker.sh
+
+      # ۵. نمایش ۵۰ سطر آخر فایل‌های لاگ تولید شده برای خطایابی سریع
+      - name: Show last log lines
+        if: always()
+        shell: bash
+        run: |
+          echo "=========== IFC STDOUT/STDERR ==========="
+          tail -n 50 ${{ matrix.case }}/phonon-Gamma/InSe/mx.ifc.out || true
+
+      # ۶. آپلود تمامی خروجی‌ها (شامل فایل‌های قبلی + تمام پوشه phonon-Gamma و زیرپوشه‌های ساخته‌شده)
+      - name: Upload all outputs as Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.case }}-phonon-results
+          path: ${{ matrix.case }}/
