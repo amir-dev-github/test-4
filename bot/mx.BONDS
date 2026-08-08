@@ -1,0 +1,43 @@
+Neighbors of:     1 Se at:   3.8686  2.4461  0.1281
+    2 In                    2.7076  Ang. Really at:   0.0129  0.1352  2.5723
+    2 In                    2.7078  Ang. Really at:   3.7956  6.9411  2.5723
+    2 In                    2.7080  Ang. Really at:   7.7986  0.2627  2.5723
+Neighbors of:     2 In at:   0.0129  0.1352  2.5723
+    3 Se                    2.5911  Ang. Really at:   0.0216  0.1303  7.4688
+    1 Se                    2.7076  Ang. Really at:   3.8686  2.4461  0.1281
+    1 Se                    2.7078  Ang. Really at:   0.0859 -4.3598  0.1281
+    1 Se                    2.7080  Ang. Really at:  -3.9171  2.3186  0.1281
+Neighbors of:     3 Se at:   0.0216  0.1303  7.4688
+    2 In                    2.5911  Ang. Really at:   0.0129  0.1352  2.5723
+    4 In                    2.9371  Ang. Really at:  -3.8316 -2.1812 10.7267
+    4 In                    2.9377  Ang. Really at:  -0.0490  4.6247 10.7267
+    4 In                    2.9391  Ang. Really at:   3.9540 -2.0537 10.7267
+Neighbors of:     4 In at:   7.7367  4.7522 10.7267
+    5 Se                    2.7404  Ang. Really at:   3.8813  2.4413 13.2984
+    5 Se                    2.7407  Ang. Really at:   7.6640  9.2472 13.2984
+    5 Se                    2.7409  Ang. Really at:  11.6670  2.5688 13.2984
+    3 Se                    2.9371  Ang. Really at:  11.5900  7.0637  7.4688
+    3 Se                    2.9377  Ang. Really at:   7.8073  0.2578  7.4688
+    3 Se                    2.9391  Ang. Really at:   3.8043  6.9362  7.4688
+Neighbors of:     5 Se at:   3.8813  2.4413 13.2984
+    4 In                    2.7404  Ang. Really at:   7.7367  4.7522 10.7267
+    4 In                    2.7407  Ang. Really at:   3.9540 -2.0537 10.7267
+    4 In                    2.7409  Ang. Really at:  -0.0490  4.6247 10.7267
+Neighbors of:     6 Se at:   7.8180  4.7311 19.3541
+    7 In                    2.7181  Ang. Really at:  11.7476  2.5477 21.8390
+    7 In                    2.7182  Ang. Really at:   3.9619  2.4202 21.8390
+    7 In                    2.7182  Ang. Really at:   7.7446  9.2261 21.8390
+Neighbors of:     7 In at:   3.9619  2.4202 21.8390
+    6 Se                    2.7181  Ang. Really at:   0.0323  4.6036 19.3541
+    6 Se                    2.7182  Ang. Really at:   7.8180  4.7311 19.3541
+    6 Se                    2.7182  Ang. Really at:   4.0354 -2.0748 19.3541
+    8 In                    2.8971  Ang. Really at:   3.9624  2.4141 27.3137
+Neighbors of:     8 In at:   3.9624  2.4141 27.3137
+    9 Se                    2.6369  Ang. Really at:   0.0331  4.5975 29.4640
+    9 Se                    2.6371  Ang. Really at:   4.0362 -2.0809 29.4640
+    9 Se                    2.6372  Ang. Really at:   7.8188  4.7250 29.4640
+    7 In                    2.8971  Ang. Really at:   3.9619  2.4202 21.8390
+Neighbors of:     9 Se at:   7.8188  4.7250 29.4640
+    8 In                    2.6369  Ang. Really at:  11.7481  2.5416 27.3137
+    8 In                    2.6371  Ang. Really at:   7.7450  9.2201 27.3137
+    8 In                    2.6372  Ang. Really at:   3.9624  2.4141 27.3137

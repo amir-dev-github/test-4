@@ -1,0 +1,92 @@
+SystemLabel	mx
+
+NumberOfSpecies	2
+NumberOfAtoms	9
+
+%block ChemicalSpeciesLabel
+1 49 In
+2 34 Se
+%endblock ChemicalSpeciesLabel
+
+PAO.BasisSize         DZP
+#PAO.SplitNorm         0.154
+
+PAO.EnergyShift 0.15 eV
+
+%block kgrid_Monkhorst_Pack
+  25   0   0    0.0
+  0   25   0    0.0
+  0   0    1    0.0
+%endblock kgrid_Monkhorst_Pack
+
+WriteKbands true
+WriteBands true
+
+#spin spin-orbit
+MeshCutoff           200. Ry
+SolutionMethod        diagon
+MaxSCFIterations      200
+
+
+DM.MixingWeight       0.1
+DM.Tolerance          1.d-4
+DM.UseSaveDM		true
+
+MD.TypeOfRun CG
+MD.NumCGsteps 200
+MD.MaxForceTol 0.001 eV/Ang
+MD.MaxCGDispl 0.1 Ang
+MD.UseSaveXV
+MD.UseSaveCG
+
+
+MD.VariableCell true
+MD.MaxStressTol 0.1 Gpa
+#MD.PreconditionVariableCell 5.0 Ang
+#MD.TargetPressure 5.0 GPa
+
+ElectronicTemperature  300 K
+
+UseSaveData		true
+
+xc.functional		GGA
+xc.authors		PBE
+
+LatticeConstant 1 Ang 
+%block LatticeVectors
+        2.060321    3.567887    0.000000
+        4.120041    0.000347    0.000000
+        0.000000    0.000000   50.000000
+%endblock LatticeVectors
+
+
+AtomicCoordinatesFormat Ang
+%block AtomicCoordinatesAndAtomicSpecies
+    2.06160813    1.19026994    0.03012217   2      
+    0.00173169    0.00099970    1.38413470   1       
+    4.12112680    2.37933363    3.11159310   2     
+    4.11932135    2.37829129    5.70080872   1       
+    2.05926175    1.18891533    6.99904617   2     
+    4.11996677    2.37866392   10.24573186   2      
+    2.05985191    1.18925606   11.56485274   1      
+    2.06006893    1.18938136   14.46221527   1       
+    4.12008923    2.37873463   15.59757144   2
+%endblock AtomicCoordinatesAndAtomicSpecies
+
+%block GeometryConstraints
+stress 3 4 5
+%endblock GeometryConstraints
+
+BandLinesScale  ReciprocalLatticeVectors
+%block BandLines
+1     0.00000  0.000000  0.0   \Gamma
+100   0.33333	0.666667 0.0   \K
+100   0.50000  0.500000  0.0   \M
+100   0.00000  0.000000  0.0   \Gamma 
+%endblock BandLines
+
+
+%block PS.lmax
+  In  1
+  Se  2
+%endblock PS.lmax
