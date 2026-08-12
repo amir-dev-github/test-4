@@ -106,8 +106,8 @@ echo $xyzAtom9  $mass2 >> mx.fcbuild.fdf
 cat >> mx.fcbuild.fdf << EOF
 %endblock AtomicCoordinatesAndAtomicSpecies
 
-SuperCell_1	2
-SuperCell_2	2
+SuperCell_1	3
+SuperCell_2	3
 SuperCell_3	0
 EOF
 
